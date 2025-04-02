@@ -26,6 +26,18 @@ extension ListHeroesViewController: ListHeroesUI {
     func update(heroes: [CharacterDataModel]) {
         listHeroesProvider?.heroes = heroes
     }
+    
+    func showLoading(_ loading: Bool) {
+        DispatchQueue.main.async {
+            if loading {
+                self.mainView.activityIndicator.startAnimating()
+                self.view.isUserInteractionEnabled = false
+            } else {
+                self.mainView.activityIndicator.stopAnimating()
+                self.view.isUserInteractionEnabled = true
+            }
+        }
+    }
 }
 
 extension ListHeroesViewController: UITableViewDelegate {
@@ -33,6 +45,16 @@ extension ListHeroesViewController: UITableViewDelegate {
         guard let selectedHero = listHeroesProvider?.heroes[indexPath.row] else { return }
         let detailVC = HeroDetailBuilder.build(hero: selectedHero)
         navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let frameHeight = scrollView.frame.size.height
+        
+        if position > contentHeight - frameHeight - 100 {
+            presenter?.getHeroes()
+        }
     }
 }
 

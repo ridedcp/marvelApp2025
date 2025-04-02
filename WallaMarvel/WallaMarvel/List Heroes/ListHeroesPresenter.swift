@@ -8,11 +8,16 @@ protocol ListHeroesPresenterProtocol: AnyObject {
 
 protocol ListHeroesUI: AnyObject {
     func update(heroes: [CharacterDataModel])
+    func showLoading(_ loading: Bool)
 }
 
 final class ListHeroesPresenter: ListHeroesPresenterProtocol {
     var ui: ListHeroesUI?
     private let getHeroesUseCase: GetHeroesUseCaseProtocol
+    
+    private var offset: Int = 0
+    private var isLoading = false
+    private var allHeroes: [CharacterDataModel] = []
     
     init(getHeroesUseCase: GetHeroesUseCaseProtocol = GetHeroes()) {
         self.getHeroesUseCase = getHeroesUseCase
@@ -25,9 +30,23 @@ final class ListHeroesPresenter: ListHeroesPresenterProtocol {
     // MARK: UseCases
     
     func getHeroes() {
-        getHeroesUseCase.execute { characterDataContainer in
-            print("Characters \(characterDataContainer.characters)")
-            self.ui?.update(heroes: characterDataContainer.characters)
+        guard !isLoading else { return }
+        isLoading = true
+        ui?.showLoading(true)
+
+        getHeroesUseCase.execute(offset: offset) { [weak self] characterDataContainer in
+            guard let self = self else { return }
+
+            let newHeroes = characterDataContainer.characters
+            self.offset += newHeroes.count
+            self.allHeroes.append(contentsOf: newHeroes)
+            self.isLoading = false
+
+            DispatchQueue.main.async {
+                print("new Heroes \(newHeroes)")
+                self.ui?.showLoading(false)
+                self.ui?.update(heroes: self.allHeroes)
+            }
         }
     }
 }

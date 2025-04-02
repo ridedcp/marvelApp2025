@@ -15,6 +15,13 @@ final class ListHeroesView: UIView {
         return tableView
     }()
     
+    let activityIndicator: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.hidesWhenStopped = true
+        return spinner
+    }()
+    
     init() {
         super.init(frame: .zero)
         setup()
@@ -31,6 +38,7 @@ final class ListHeroesView: UIView {
     
     private func addSubviews() {
         addSubview(heroesTableView)
+        addSubview(activityIndicator)
     }
     
     private func addContraints() {
@@ -39,6 +47,9 @@ final class ListHeroesView: UIView {
             heroesTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             heroesTableView.topAnchor.constraint(equalTo: topAnchor),
             heroesTableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }
