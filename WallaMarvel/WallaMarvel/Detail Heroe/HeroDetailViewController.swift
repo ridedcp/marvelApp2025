@@ -9,16 +9,16 @@ import UIKit
 import Kingfisher
 
 final class HeroDetailViewController: UIViewController {
-    
-    private let hero: CharacterDataModel
+    private var presenter: HeroDetailPresenterProtocol
     
     private let imageView = UIImageView()
     private let nameLabel = UILabel()
     
-    init(hero: CharacterDataModel) {
-        self.hero = hero
+    init(presenter: HeroDetailPresenterProtocol) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
-        self.title = "Hero Detail"
+        self.presenter.ui = self
+        self.title = presenter.screenTitle()
     }
     
     required init?(coder: NSCoder) {
@@ -29,7 +29,7 @@ final class HeroDetailViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupLayout()
-        configure()
+        presenter.onViewLoaded()
     }
     
     private func setupLayout() {
@@ -51,10 +51,11 @@ final class HeroDetailViewController: UIViewController {
             nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         ])
     }
-    
-    private func configure() {
-        nameLabel.text = hero.name
-        let imageUrl = URL(string: hero.thumbnail.path + "/portrait_uncanny." + hero.thumbnail.extension)
-        imageView.kf.setImage(with: imageUrl)
+}
+
+extension HeroDetailViewController: HeroDetailUI {
+    func showHero(name: String, imageURL: URL?) {
+        nameLabel.text = name
+        imageView.kf.setImage(with: imageURL)
     }
 }
