@@ -16,6 +16,7 @@ final class ListHeroesPresenter: ListHeroesPresenterProtocol {
     var ui: ListHeroesUI?
     private let getHeroesUseCase: GetHeroesUseCaseProtocol
     
+    private var query: String?
     private var offset: Int = 0
     private var isLoading = false
     private var allHeroes: [CharacterDataModel] = []
@@ -35,14 +36,18 @@ final class ListHeroesPresenter: ListHeroesPresenterProtocol {
         isLoading = true
         ui?.showLoading(true)
 
-        getHeroesUseCase.execute(offset: offset) { [weak self] characterDataContainer in
+        getHeroesUseCase.execute(offset: offset, query: query) { [weak self] container in
             guard let self = self else { return }
 
-            let newHeroes = characterDataContainer.characters
+            let newHeroes = container.characters
             self.offset += newHeroes.count
-            self.allHeroes.append(contentsOf: newHeroes)
-            self.isLoading = false
+            if self.offset == newHeroes.count {
+                self.allHeroes = newHeroes
+            } else {
+                self.allHeroes.append(contentsOf: newHeroes)
+            }
 
+            self.isLoading = false
             DispatchQueue.main.async {
                 print("new Heroes \(newHeroes)")
                 self.ui?.showLoading(false)
@@ -52,16 +57,14 @@ final class ListHeroesPresenter: ListHeroesPresenterProtocol {
     }
     
     func filterHeroes(with query: String) {
-        let filtered: [CharacterDataModel]
-
-        if query.isEmpty {
-            filtered = allHeroes
-        } else {
-            filtered = allHeroes.filter { $0.name.lowercased().contains(query.lowercased()) }
-        }
-
-        DispatchQueue.main.async {
-            self.ui?.update(heroes: filtered)
+        let normalizedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if normalizedQuery != self.query {
+            self.query = normalizedQuery
+            self.offset = 0
+            self.allHeroes = []
+            ui?.update(heroes: [])
+            getHeroes()
         }
     }
 

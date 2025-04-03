@@ -1,7 +1,7 @@
 import Foundation
 
 protocol APIClientProtocol {
-    func getHeroes(offset: Int, completionBlock: @escaping (CharacterDataContainer) -> Void)
+    func getHeroes(offset: Int, query: String?, completionBlock: @escaping (CharacterDataContainer) -> Void)
     func getComics(for heroId: Int, completionBlock: @escaping ([Comic]) -> Void)
 }
 
@@ -13,15 +13,21 @@ final class APIClient: APIClientProtocol {
     
     init() { }
     
-    func getHeroes(offset: Int = 0, completionBlock: @escaping (CharacterDataContainer) -> Void) {
+    func getHeroes(offset: Int = 0, query: String? = nil, completionBlock: @escaping (CharacterDataContainer) -> Void) {
         let ts = String(Int(Date().timeIntervalSince1970))
         let privateKey = Constant.privateKey
         let publicKey = Constant.publicKey
         let hash = "\(ts)\(privateKey)\(publicKey)".md5
-        let parameters: [String: String] = ["apikey": publicKey,
+        
+        var parameters: [String: String] = ["apikey": publicKey,
                                             "ts": ts,
                                             "hash": hash,
                                             "offset": String(offset)]
+        
+        if let query = query, !query.isEmpty {
+            parameters["nameStartsWith"] = query
+        }
+        
         
         let endpoint = "https://gateway.marvel.com:443/v1/public/characters"
         var urlComponent = URLComponents(string: endpoint)

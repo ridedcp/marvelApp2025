@@ -31,7 +31,9 @@ final class ListHeroesViewController: UIViewController {
 
 extension ListHeroesViewController: ListHeroesUI {
     func update(heroes: [CharacterDataModel]) {
-        listHeroesProvider?.heroes = heroes
+        DispatchQueue.main.async {
+            self.listHeroesProvider?.heroes = heroes
+        }
     }
     
     func showLoading(_ loading: Bool) {
