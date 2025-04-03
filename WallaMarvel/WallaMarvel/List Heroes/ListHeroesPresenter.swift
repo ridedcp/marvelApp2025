@@ -4,6 +4,7 @@ protocol ListHeroesPresenterProtocol: AnyObject {
     var ui: ListHeroesUI? { get set }
     func screenTitle() -> String
     func getHeroes()
+    func filterHeroes(with query: String)
 }
 
 protocol ListHeroesUI: AnyObject {
@@ -49,5 +50,20 @@ final class ListHeroesPresenter: ListHeroesPresenterProtocol {
             }
         }
     }
+    
+    func filterHeroes(with query: String) {
+        let filtered: [CharacterDataModel]
+
+        if query.isEmpty {
+            filtered = allHeroes
+        } else {
+            filtered = allHeroes.filter { $0.name.lowercased().contains(query.lowercased()) }
+        }
+
+        DispatchQueue.main.async {
+            self.ui?.update(heroes: filtered)
+        }
+    }
+
 }
 
