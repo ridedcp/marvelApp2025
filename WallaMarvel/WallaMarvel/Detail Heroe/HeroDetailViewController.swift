@@ -11,6 +11,8 @@ import Kingfisher
 final class HeroDetailViewController: UIViewController {
     private var presenter: HeroDetailPresenterProtocol
     
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
     private let imageView = UIImageView()
     private let nameLabel = UILabel()
     
@@ -47,36 +49,53 @@ final class HeroDetailViewController: UIViewController {
     }
     
     private func setupLayout() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         comicsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         comicsStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        nameLabel.numberOfLines = 0
-        nameLabel.font = .systemFont(ofSize: 24, weight: .bold)
-        
-        view.addSubview(imageView)
-        view.addSubview(nameLabel)
-        view.addSubview(comicsTitleLabel)
-        view.addSubview(comicsStackView)
-        
+
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+
+        contentView.addSubview(imageView)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(comicsTitleLabel)
+        contentView.addSubview(comicsStackView)
+
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            imageView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+
+            imageView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 16),
+            imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            imageView.heightAnchor.constraint(equalToConstant: 150),
+            imageView.widthAnchor.constraint(equalToConstant: 150),
+
             nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
-            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 
             comicsTitleLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 24),
-            comicsTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            comicsTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
+            comicsTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            comicsTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+
             comicsStackView.topAnchor.constraint(equalTo: comicsTitleLabel.bottomAnchor, constant: 8),
-            comicsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            comicsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            comicsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            comicsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            comicsStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
         ])
     }
+
 }
 
 extension HeroDetailViewController: HeroDetailUI {
