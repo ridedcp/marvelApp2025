@@ -113,11 +113,15 @@ final class ListHeroesPresenterTests: XCTestCase {
             CharacterDataModel.mock(id: 3, name: "Thor"),
             CharacterDataModel.mock(id: 4, name: "Hulk")
         ]
-        
-        let firstContainer = CharacterDataContainer(count: 2, limit: 20, offset: 0, characters: firstBatch)
-        let secondContainer = CharacterDataContainer(count: 2, limit: 20, offset: 2, characters: secondBatch)
-        
+
+        let firstContainer = CharacterDataContainer(count: 2, limit: 2, total: 4, offset: 0, characters: firstBatch)
+        let secondContainer = CharacterDataContainer(count: 2, limit: 2, total: 4, offset: 2, characters: secondBatch)
+
         mockUI.onUpdate = {
+            if self.mockUI.updatedHeroes == firstBatch {
+                self.mockUseCase.result = secondContainer
+                self.presenter.getHeroes()
+            }
             expectation.fulfill()
         }
         
@@ -125,12 +129,9 @@ final class ListHeroesPresenterTests: XCTestCase {
         mockUseCase.result = firstContainer
         presenter.getHeroes()
         
-        mockUseCase.result = secondContainer
-        presenter.getHeroes()
-        
         // Then
-        wait(for: [expectation], timeout: 1.0)
-        
+        wait(for: [expectation], timeout: 2.0)
+
         let expected = firstBatch + secondBatch
         XCTAssertEqual(mockUI.updatedHeroes, expected)
     }
@@ -164,4 +165,38 @@ final class ListHeroesPresenterTests: XCTestCase {
         // Then
         XCTAssertEqual(title, "List of Heroes")
     }
+    
+    func test_filterHeroes_trimsAndLowercasesQuery() {
+        // Given
+        let characters = [CharacterDataModel.mock(name: "Iron Man")]
+        let container = CharacterDataContainer(count: 1, limit: 20, offset: 0, characters: characters)
+        mockUseCase.result = container
+
+        // When
+        presenter.filterHeroes(with: "  IRON Man  ")
+
+        // Then
+        XCTAssertEqual(mockUseCase.lastQuery, "iron man")
+    }
+    
+    func test_getHeroes_handlesEmptyResultsGracefully() {
+        // Given
+        let expectation = self.expectation(description: "Wait for update on empty result")
+
+        let emptyContainer = CharacterDataContainer(count: 0, limit: 20, total: 0, offset: 0, characters: [])
+        mockUseCase.result = emptyContainer
+
+        mockUI.onUpdate = {
+            expectation.fulfill()
+        }
+
+        // When
+        presenter.getHeroes()
+
+        // Then
+        wait(for: [expectation], timeout: 1.0)
+
+        XCTAssertEqual(mockUI.updatedHeroes, [], "UI must recieve an empty array without crashes")
+    }
+
 }
