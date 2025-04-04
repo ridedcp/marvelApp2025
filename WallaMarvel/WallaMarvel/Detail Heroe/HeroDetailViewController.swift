@@ -20,6 +20,7 @@ final class HeroDetailViewController: UIViewController {
         let label = UILabel()
         label.text = "Comics"
         label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .label
         return label
     }()
 
@@ -43,7 +44,7 @@ final class HeroDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         setupLayout()
         presenter.onViewLoaded()
     }
@@ -111,13 +112,14 @@ extension HeroDetailViewController: HeroDetailUI {
             if comics.isEmpty {
                 let label = UILabel()
                 label.text = "No comics found."
-                label.textColor = .gray
+                label.textColor = .label
                 label.font = .italicSystemFont(ofSize: 14)
                 self.comicsStackView.addArrangedSubview(label)
             } else {
                 comics.forEach { comic in
                     let label = UILabel()
                     label.text = "• \(comic.title)"
+                    label.textColor = .label
                     label.numberOfLines = 0
                     self.comicsStackView.addArrangedSubview(label)
                 }

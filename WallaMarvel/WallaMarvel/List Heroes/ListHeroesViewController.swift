@@ -13,6 +13,7 @@ final class ListHeroesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         listHeroesProvider = ListHeroesAdapter(tableView: mainView.heroesTableView)
         presenter?.getHeroes()
         presenter?.ui = self
