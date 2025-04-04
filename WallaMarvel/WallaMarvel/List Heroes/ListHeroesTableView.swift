@@ -15,6 +15,17 @@ final class ListHeroesView: UIView {
         return tableView
     }()
     
+    let noResultsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No heroes found"
+        label.textAlignment = .center
+        label.textColor = .secondaryLabel
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     let activityIndicator: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: .large)
         spinner.translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +49,7 @@ final class ListHeroesView: UIView {
     
     private func addSubviews() {
         addSubview(heroesTableView)
+        addSubview(noResultsLabel)
         addSubview(activityIndicator)
     }
     
@@ -47,6 +59,9 @@ final class ListHeroesView: UIView {
             heroesTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             heroesTableView.topAnchor.constraint(equalTo: topAnchor),
             heroesTableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            noResultsLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            noResultsLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)

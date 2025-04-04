@@ -13,7 +13,7 @@ protocol ListHeroesUI: AnyObject {
 }
 
 final class ListHeroesPresenter: ListHeroesPresenterProtocol {
-    var ui: ListHeroesUI?
+    weak var ui: ListHeroesUI?
     private let getHeroesUseCase: GetHeroesUseCaseProtocol
     
     private var query: String?
@@ -62,9 +62,10 @@ final class ListHeroesPresenter: ListHeroesPresenterProtocol {
     func filterHeroes(with query: String) {
         let normalizedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         
-        if normalizedQuery != self.query {
+        if normalizedQuery != self.query || allHeroes.isEmpty {
             self.query = normalizedQuery
             self.offset = 0
+            self.totalCount = .max
             self.allHeroes = []
             ui?.update(heroes: [])
             getHeroes()
