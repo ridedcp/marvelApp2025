@@ -1,10 +1,10 @@
 import Foundation
 
 struct CharacterDataContainer: Decodable {
-    let count: Int
-    let limit: Int
-    let offset: Int
-    let characters: [CharacterDataModel]
+    var count: Int
+    var limit: Int
+    var offset: Int
+    var characters: [CharacterDataModel]
     
     enum CodingKeys: String, CodingKey {
         case data
@@ -19,5 +19,12 @@ struct CharacterDataContainer: Decodable {
         self.offset = try data.decode(Int.self, forKey: .offset)
         
         self.characters = try data.decode([CharacterDataModel].self, forKey: .characters)
+    }
+    
+    init(count: Int, limit: Int, offset: Int, characters: [CharacterDataModel]) {
+        self.count = count
+        self.limit = limit
+        self.offset = offset
+        self.characters = characters
     }
 }
