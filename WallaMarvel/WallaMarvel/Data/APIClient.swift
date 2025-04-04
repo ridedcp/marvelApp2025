@@ -21,7 +21,7 @@ final class APIClient: APIClientProtocol {
         }
         
         guard let url = buildURL(endpoint: "https://gateway.marvel.com/v1/public/characters", params: params) else {
-            completionBlock(CharacterDataContainer(count: 0, limit: 0, offset: 0, characters: []))
+            completionBlock(CharacterDataContainer(count: 0, limit: 0, total: 0, offset: 0, characters: []))
             return
         }
         
@@ -30,7 +30,7 @@ final class APIClient: APIClientProtocol {
             case .success(let container):
                 completionBlock(container)
             case .failure:
-                completionBlock(CharacterDataContainer(count: 0, limit: 0, offset: 0, characters: []))
+                completionBlock(CharacterDataContainer(count: 0, limit: 0, total: 0, offset: 0, characters: []))
             }
         }
     }

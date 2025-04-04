@@ -20,6 +20,7 @@ final class ListHeroesPresenter: ListHeroesPresenterProtocol {
     private var offset: Int = 0
     private var isLoading = false
     private var allHeroes: [CharacterDataModel] = []
+    private var totalCount: Int = .max
     
     init(getHeroesUseCase: GetHeroesUseCaseProtocol = GetHeroes()) {
         self.getHeroesUseCase = getHeroesUseCase
@@ -32,7 +33,7 @@ final class ListHeroesPresenter: ListHeroesPresenterProtocol {
     // MARK: UseCases
     
     func getHeroes() {
-        guard !isLoading else { return }
+        guard !isLoading, offset < totalCount else { return }
         isLoading = true
         ui?.showLoading(true)
 
@@ -40,6 +41,8 @@ final class ListHeroesPresenter: ListHeroesPresenterProtocol {
             guard let self = self else { return }
 
             let newHeroes = container.characters
+            self.totalCount = container.total
+            
             self.offset += newHeroes.count
             if self.offset == newHeroes.count {
                 self.allHeroes = newHeroes
@@ -57,7 +60,7 @@ final class ListHeroesPresenter: ListHeroesPresenterProtocol {
     }
     
     func filterHeroes(with query: String) {
-        let normalizedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        let normalizedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         
         if normalizedQuery != self.query {
             self.query = normalizedQuery
