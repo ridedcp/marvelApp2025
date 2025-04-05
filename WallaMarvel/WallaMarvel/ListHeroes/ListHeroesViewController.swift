@@ -57,6 +57,7 @@ extension ListHeroesViewController: ListHeroesUI {
 
 extension ListHeroesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         guard let selectedHero = listHeroesProvider?.heroes[indexPath.row] else { return }
         let detailVC = HeroDetailBuilder.build(hero: selectedHero)
         navigationController?.pushViewController(detailVC, animated: true)
