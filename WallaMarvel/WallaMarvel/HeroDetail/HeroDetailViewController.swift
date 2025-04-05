@@ -15,6 +15,7 @@ final class HeroDetailViewController: UIViewController {
     private let contentView = UIView()
     private let imageView = UIImageView()
     private let nameLabel = UILabel()
+    private var comics: [Comic] = []
     
     private let comicsTitleLabel: UILabel = {
         let label = UILabel()
@@ -24,11 +25,21 @@ final class HeroDetailViewController: UIViewController {
         return label
     }()
 
-    private let comicsStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 8
-        return stack
+    private lazy var comicsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let spacing: CGFloat = 12
+        let itemWidth = (UIScreen.main.bounds.width - 16 * 2 - spacing * 2) / 3
+
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
+        layout.minimumInteritemSpacing = spacing
+        layout.minimumLineSpacing = spacing
+
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        collectionView.dataSource = self
+        collectionView.register(ComicCollectionViewCell.self, forCellWithReuseIdentifier: "ComicCell")
+        return collectionView
     }()
     
     init(presenter: HeroDetailPresenterProtocol) {
@@ -58,7 +69,7 @@ final class HeroDetailViewController: UIViewController {
         nameLabel.accessibilityIdentifier = "heroDetailNameLabel"
 
         comicsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        comicsStackView.translatesAutoresizingMaskIntoConstraints = false
+        comicsCollectionView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -66,7 +77,7 @@ final class HeroDetailViewController: UIViewController {
         contentView.addSubview(imageView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(comicsTitleLabel)
-        contentView.addSubview(comicsStackView)
+        contentView.addSubview(comicsCollectionView)
 
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -93,10 +104,11 @@ final class HeroDetailViewController: UIViewController {
             comicsTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             comicsTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 
-            comicsStackView.topAnchor.constraint(equalTo: comicsTitleLabel.bottomAnchor, constant: 8),
-            comicsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            comicsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            comicsStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
+            comicsCollectionView.topAnchor.constraint(equalTo: comicsTitleLabel.bottomAnchor, constant: 12),
+            comicsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            comicsCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            comicsCollectionView.heightAnchor.constraint(equalToConstant: 400),
+            comicsCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
         ])
     }
 
@@ -110,23 +122,22 @@ extension HeroDetailViewController: HeroDetailUI {
     
     func showComics(_ comics: [Comic]) {
         DispatchQueue.main.async {
-            self.comicsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-
-            if comics.isEmpty {
-                let label = UILabel()
-                label.text = "No comics found."
-                label.textColor = .label
-                label.font = .italicSystemFont(ofSize: 14)
-                self.comicsStackView.addArrangedSubview(label)
-            } else {
-                comics.forEach { comic in
-                    let label = UILabel()
-                    label.text = "• \(comic.title)"
-                    label.textColor = .label
-                    label.numberOfLines = 0
-                    self.comicsStackView.addArrangedSubview(label)
-                }
-            }
+            self.comics = comics
+            self.comicsCollectionView.reloadData()
         }
+    }
+}
+
+extension HeroDetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        comics.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ComicCell", for: indexPath) as? ComicCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.configure(with: comics[indexPath.item])
+        return cell
     }
 }

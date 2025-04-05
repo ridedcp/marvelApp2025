@@ -10,4 +10,5 @@ import Foundation
 struct Comic: Decodable, Equatable {
     let id: Int
     let title: String
+    let thumbnail: Thumbnail?
 }
