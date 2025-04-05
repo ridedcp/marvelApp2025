@@ -11,8 +11,6 @@ import Kingfisher
 final class HeroDetailViewController: UIViewController {
     private var presenter: HeroDetailPresenterProtocol
     
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
     private let imageView = UIImageView()
     private let nameLabel = UILabel()
     private var comics: [Comic] = []
@@ -29,14 +27,13 @@ final class HeroDetailViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         let spacing: CGFloat = 12
         let itemWidth = (UIScreen.main.bounds.width - 16 * 2 - spacing * 2) / 3
-
         layout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
         layout.minimumInteritemSpacing = spacing
         layout.minimumLineSpacing = spacing
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.register(ComicCollectionViewCell.self, forCellWithReuseIdentifier: "ComicCell")
         return collectionView
@@ -61,54 +58,40 @@ final class HeroDetailViewController: UIViewController {
     }
     
     private func setupLayout() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
-
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.accessibilityIdentifier = "heroDetailNameLabel"
-
         comicsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         comicsCollectionView.translatesAutoresizingMaskIntoConstraints = false
 
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
+        nameLabel.textAlignment = .center
+        nameLabel.font = .boldSystemFont(ofSize: 22)
 
-        contentView.addSubview(imageView)
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(comicsTitleLabel)
-        contentView.addSubview(comicsCollectionView)
+        comicsTitleLabel.text = "Comics"
+        comicsTitleLabel.font = .boldSystemFont(ofSize: 20)
+
+        view.addSubview(imageView)
+        view.addSubview(nameLabel)
+        view.addSubview(comicsTitleLabel)
+        view.addSubview(comicsCollectionView)
 
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-
-            imageView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 16),
-            imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 150),
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.widthAnchor.constraint(equalToConstant: 150),
+            imageView.heightAnchor.constraint(equalToConstant: 150),
 
-            nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 12),
+            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
 
             comicsTitleLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 24),
-            comicsTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            comicsTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            comicsTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            comicsTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
 
             comicsCollectionView.topAnchor.constraint(equalTo: comicsTitleLabel.bottomAnchor, constant: 12),
-            comicsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            comicsCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            comicsCollectionView.heightAnchor.constraint(equalToConstant: 400),
-            comicsCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
+            comicsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            comicsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            comicsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 

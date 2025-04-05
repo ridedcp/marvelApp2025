@@ -64,7 +64,7 @@ final class ComicCollectionViewCell: UICollectionViewCell {
             let url = URL(string: "\(path)/portrait_uncanny.\(ext)")
             imageView.kf.setImage(with: url)
         } else {
-            imageView.image = UIImage(systemName: "book")
+            imageView.image = UIImage(systemName: "photo")
         }
     }
 }
