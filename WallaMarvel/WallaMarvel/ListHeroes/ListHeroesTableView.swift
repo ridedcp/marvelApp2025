@@ -23,6 +23,7 @@ final class ListHeroesView: UIView {
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.accessibilityIdentifier = "emptyStateLabel"
         return label
     }()
     
@@ -66,5 +67,15 @@ final class ListHeroesView: UIView {
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+    }
+    
+    func showEmptyState() {
+        noResultsLabel.isHidden = false
+        heroesTableView.isHidden = true
+    }
+
+    func hideEmptyState() {
+        noResultsLabel.isHidden = true
+        heroesTableView.isHidden = false
     }
 }

@@ -55,15 +55,14 @@ final class ListHeroesPresenterTests: XCTestCase {
         // Given
         let expectation = self.expectation(description: "Wait for filtered update")
 
-        let characters = [
-            CharacterDataModel.mock(id: 101, name: "Spider-Man"),
-            CharacterDataModel.mock(id: 102, name: "Iron Man")
+        let filteredCharacters = [
+            CharacterDataModel.mock(id: 101, name: "Spider-Man")
         ]
-        let container = CharacterDataContainer(count: 2, limit: 20, offset: 0, characters: characters)
+        let container = CharacterDataContainer(count: 1, limit: 20, offset: 0, characters: filteredCharacters)
         mockUseCase.result = container
         
         mockUI.onUpdate = {
-            if self.mockUI.updatedHeroes == characters {
+            if self.mockUI.updatedHeroes == filteredCharacters {
                 expectation.fulfill()
             }
         }
@@ -75,7 +74,7 @@ final class ListHeroesPresenterTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
         XCTAssertEqual(mockUseCase.lastOffset, 0)
         XCTAssertEqual(mockUseCase.lastQuery, "spider")
-        XCTAssertEqual(mockUI.updatedHeroes, characters)
+        XCTAssertEqual(mockUI.updatedHeroes, filteredCharacters)
     }
     
     func test_filterHeroes_doesNotCallUseCaseWhenQueryIsSame() {

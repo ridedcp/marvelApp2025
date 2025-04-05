@@ -33,8 +33,12 @@ final class ListHeroesViewController: UIViewController {
 extension ListHeroesViewController: ListHeroesUI {
     func update(heroes: [CharacterDataModel]) {
         DispatchQueue.main.async {
-            self.mainView.noResultsLabel.isHidden = !heroes.isEmpty
-            self.listHeroesProvider?.heroes = heroes
+            if heroes.isEmpty {
+                self.mainView.showEmptyState()
+            } else {
+                self.mainView.hideEmptyState()
+                self.listHeroesProvider?.heroes = heroes
+            }
         }
     }
     

@@ -40,7 +40,17 @@ final class ListHeroesPresenter: ListHeroesPresenterProtocol {
         getHeroesUseCase.execute(offset: offset, query: query) { [weak self] container in
             guard let self = self else { return }
 
-            let newHeroes = container.characters
+            let allFetchedHeroes = container.characters
+            let newHeroes: [CharacterDataModel]
+
+            if let query = self.query, !query.isEmpty {
+                newHeroes = allFetchedHeroes.filter {
+                    $0.name.lowercased().hasPrefix(query)
+                }
+            } else {
+                newHeroes = allFetchedHeroes
+            }
+
             self.totalCount = container.total
             
             self.offset += newHeroes.count
@@ -61,15 +71,18 @@ final class ListHeroesPresenter: ListHeroesPresenterProtocol {
     
     func filterHeroes(with query: String) {
         let normalizedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        
-        if normalizedQuery != self.query || allHeroes.isEmpty {
-            self.query = normalizedQuery
-            self.offset = 0
-            self.totalCount = .max
-            self.allHeroes = []
-            ui?.update(heroes: [])
-            getHeroes()
+
+        guard normalizedQuery != self.query else {
+            return
         }
+
+        self.query = normalizedQuery
+        self.offset = 0
+        self.totalCount = .max
+        self.allHeroes = []
+
+        ui?.update(heroes: [])
+        getHeroes()
     }
 
 }

@@ -53,7 +53,10 @@ final class HeroDetailViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
+
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.accessibilityIdentifier = "heroDetailNameLabel"
+
         comicsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         comicsStackView.translatesAutoresizingMaskIntoConstraints = false
 
