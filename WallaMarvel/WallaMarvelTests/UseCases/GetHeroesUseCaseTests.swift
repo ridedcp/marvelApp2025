@@ -5,17 +5,29 @@
 //  Created by Daniel Cano on 4/4/25.
 //
 
-import Foundation
 import XCTest
 @testable import WallaMarvel
 
 final class GetHeroesUseCaseTests: XCTestCase {
+
+    private var mockRepo: MockMarvelRepository!
+    private var useCase: GetHeroes!
+
+    override func setUp() {
+        super.setUp()
+        mockRepo = MockMarvelRepository()
+        useCase = GetHeroes(repository: mockRepo)
+    }
+
+    override func tearDown() {
+        mockRepo = nil
+        useCase = nil
+        super.tearDown()
+    }
+
     func test_execute_callsRepositoryWithCorrectParams_andPropagatesResult() {
         // Given
-        let mockRepo = MockMarvelRepository()
-        let useCase = GetHeroes(repository: mockRepo)
         let expectedResult = CharacterDataContainer(count: 1, limit: 20, total: 100, offset: 0, characters: [CharacterDataModel.mock()])
-        
         mockRepo.resultContainer = expectedResult
 
         var receivedResult: CharacterDataContainer?

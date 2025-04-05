@@ -11,7 +11,11 @@ final class APIClient: APIClientProtocol {
         static let publicKey = "d575c26d5c746f623518e753921ac847"
     }
     
-    init() { }
+    private let session: URLSession
+    
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
     
     func getHeroes(offset: Int = 0, query: String? = nil, completionBlock: @escaping (CharacterDataContainer) -> Void) {
         var params = authParams()
@@ -72,7 +76,7 @@ final class APIClient: APIClientProtocol {
     }
     
     private func performRequest<T: Decodable>(url: URL, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
-        URLSession.shared.dataTask(with: url) { data, _, error in
+        self.session.dataTask(with: url) { data, _, error in
             guard let data = data else {
                 completion(.failure(error ?? NSError(domain: "EmptyData", code: -1)))
                 return

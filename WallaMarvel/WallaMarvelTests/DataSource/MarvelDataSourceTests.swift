@@ -10,11 +10,23 @@ import XCTest
 
 final class MarvelDataSourceTests: XCTestCase {
 
+    private var mockClient: MockAPIClient!
+    private var dataSource: MarvelDataSource!
+
+    override func setUp() {
+        super.setUp()
+        mockClient = MockAPIClient()
+        dataSource = MarvelDataSource(apiClient: mockClient)
+    }
+
+    override func tearDown() {
+        mockClient = nil
+        dataSource = nil
+        super.tearDown()
+    }
+
     func test_getHeroes_callsAPIClientWithCorrectParams_andReturnsResult() {
         // Given
-        let mockClient = MockAPIClient()
-        let dataSource = MarvelDataSource(apiClient: mockClient)
-
         let expectedContainer = CharacterDataContainer(count: 1, limit: 20, total: 100, offset: 0, characters: [CharacterDataModel.mock()])
         mockClient.heroesToReturn = expectedContainer
 
@@ -33,9 +45,6 @@ final class MarvelDataSourceTests: XCTestCase {
 
     func test_getComics_callsAPIClientWithCorrectHeroId_andReturnsComics() {
         // Given
-        let mockClient = MockAPIClient()
-        let dataSource = MarvelDataSource(apiClient: mockClient)
-
         let expectedComics = [
             Comic(id: 1, title: "Thor: Ragnarok"),
             Comic(id: 2, title: "Avengers Assemble")
@@ -55,4 +64,3 @@ final class MarvelDataSourceTests: XCTestCase {
         XCTAssertEqual(result.first?.title, "Thor: Ragnarok")
     }
 }
-
