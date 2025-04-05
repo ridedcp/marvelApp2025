@@ -6,17 +6,17 @@ WallaMarvel is a technical test app that consumes the Marvel API to display a li
 
 ## 📱 Screenshots
 
-> _You can add screenshots here once ready using markdown syntax._
-
 - Heroes List  
-  ![Simulator Screenshot - iPhone 16 Pro - 2025-04-05 at 11 45 26](https://github.com/user-attachments/assets/95e9656d-3ed4-43d8-b013-33e442b2bef8)
+![Simulator Screenshot - iPhone 16 Pro - 2025-04-05 at 11 45 26](https://github.com/user-attachments/assets/de42e161-5193-408a-942f-0828fe27d92b)
 
+ 
 - Hero Detail  
-  ![Simulator Screenshot - iPhone 16 Pro - 2025-04-05 at 11 45 58](https://github.com/user-attachments/assets/f00264e2-adb6-4733-9e40-9b7f58535258)
+![Simulator Screenshot - iPhone 16 Pro - 2025-04-05 at 11 45 58](https://github.com/user-attachments/assets/4d18aed9-f76c-4b1b-99e3-271c000fbd69)
 
-
+ 
 - Empty State on no results  
-  ![Simulator Screenshot - iPhone 16 Pro - 2025-04-05 at 11 45 42](https://github.com/user-attachments/assets/706ec8ec-b27b-40c5-a5b3-0415a8cae7f0)
+ ![Simulator Screenshot - iPhone 16 Pro - 2025-04-05 at 11 45 42](https://github.com/user-attachments/assets/e43084f5-6912-4e6a-9fcf-523e30f71692)
+
 
 
 ---
