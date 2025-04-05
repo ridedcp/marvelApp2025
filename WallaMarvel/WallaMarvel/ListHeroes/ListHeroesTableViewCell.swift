@@ -6,6 +6,8 @@ final class ListHeroesTableViewCell: UITableViewCell {
     private let heroeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -39,12 +41,12 @@ final class ListHeroesTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             heroeImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             heroeImageView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            heroeImageView.heightAnchor.constraint(equalToConstant: 80),
-            heroeImageView.widthAnchor.constraint(equalToConstant: 80),
+            heroeImageView.heightAnchor.constraint(equalToConstant: 60),
+            heroeImageView.widthAnchor.constraint(equalToConstant: 60),
             heroeImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
             
             heroeName.leadingAnchor.constraint(equalTo: heroeImageView.trailingAnchor, constant: 12),
-            heroeName.topAnchor.constraint(equalTo: heroeImageView.topAnchor, constant: 8),
+            heroeName.centerYAnchor.constraint(equalTo: heroeImageView.centerYAnchor),
         ])
     }
     
