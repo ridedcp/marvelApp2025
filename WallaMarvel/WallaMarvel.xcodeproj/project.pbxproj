@@ -40,6 +40,13 @@
 		3321EA1D2DA02142003C45B7 /* MockHeroDetailUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3321EA1C2DA02142003C45B7 /* MockHeroDetailUI.swift */; };
 		3321EA1F2DA02178003C45B7 /* MockGetComicsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3321EA1E2DA02177003C45B7 /* MockGetComicsUseCase.swift */; };
 		3321EA212DA021B3003C45B7 /* HeroDetailPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3321EA202DA021B3003C45B7 /* HeroDetailPresenterTests.swift */; };
+		3321EA242DA0284E003C45B7 /* MockMarvelRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3321EA232DA0284E003C45B7 /* MockMarvelRepository.swift */; };
+		3321EA262DA0286C003C45B7 /* GetHeroesUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3321EA252DA0286C003C45B7 /* GetHeroesUseCaseTests.swift */; };
+		3321EA282DA0298A003C45B7 /* GetComicsUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3321EA272DA0298A003C45B7 /* GetComicsUseCaseTests.swift */; };
+		3321EA2A2DA02A2F003C45B7 /* MockMarvelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3321EA292DA02A2F003C45B7 /* MockMarvelDataSource.swift */; };
+		3321EA2D2DA02A51003C45B7 /* MarvelRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3321EA2C2DA02A51003C45B7 /* MarvelRepositoryTests.swift */; };
+		3321EA2F2DA02B42003C45B7 /* MockAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3321EA2E2DA02B42003C45B7 /* MockAPIClient.swift */; };
+		3321EA322DA02B62003C45B7 /* MarvelDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3321EA312DA02B62003C45B7 /* MarvelDataSourceTests.swift */; };
 		AF99BE8C8FC1DE4178D39965 /* Pods_WallaMarvel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27133A00A66EF91557A95FF4 /* Pods_WallaMarvel.framework */; };
 		B44173F44B16313EF24D8ED3 /* Pods_WallaMarvel_WallaMarvelUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9A318E79FD19C1EE3A972A3 /* Pods_WallaMarvel_WallaMarvelUITests.framework */; };
 		CEEB6D6D448C150745880569 /* Pods_WallaMarvelTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46D0BB56F90DDBDFBE6933F7 /* Pods_WallaMarvelTests.framework */; };
@@ -104,6 +111,13 @@
 		3321EA1C2DA02142003C45B7 /* MockHeroDetailUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHeroDetailUI.swift; sourceTree = "<group>"; };
 		3321EA1E2DA02177003C45B7 /* MockGetComicsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGetComicsUseCase.swift; sourceTree = "<group>"; };
 		3321EA202DA021B3003C45B7 /* HeroDetailPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroDetailPresenterTests.swift; sourceTree = "<group>"; };
+		3321EA232DA0284E003C45B7 /* MockMarvelRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMarvelRepository.swift; sourceTree = "<group>"; };
+		3321EA252DA0286C003C45B7 /* GetHeroesUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetHeroesUseCaseTests.swift; sourceTree = "<group>"; };
+		3321EA272DA0298A003C45B7 /* GetComicsUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetComicsUseCaseTests.swift; sourceTree = "<group>"; };
+		3321EA292DA02A2F003C45B7 /* MockMarvelDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMarvelDataSource.swift; sourceTree = "<group>"; };
+		3321EA2C2DA02A51003C45B7 /* MarvelRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelRepositoryTests.swift; sourceTree = "<group>"; };
+		3321EA2E2DA02B42003C45B7 /* MockAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIClient.swift; sourceTree = "<group>"; };
+		3321EA312DA02B62003C45B7 /* MarvelDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelDataSourceTests.swift; sourceTree = "<group>"; };
 		46D0BB56F90DDBDFBE6933F7 /* Pods_WallaMarvelTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WallaMarvelTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E001A2658509E1DA6A8286B /* Pods-WallaMarvel-WallaMarvelUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WallaMarvel-WallaMarvelUITests.debug.xcconfig"; path = "Target Support Files/Pods-WallaMarvel-WallaMarvelUITests/Pods-WallaMarvel-WallaMarvelUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B07DF4A661FBEFBDC6D96C2E /* Pods-WallaMarvelTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WallaMarvelTests.debug.xcconfig"; path = "Target Support Files/Pods-WallaMarvelTests/Pods-WallaMarvelTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -190,6 +204,9 @@
 		1A0E3AAE2862F7E300132FCB /* WallaMarvelTests */ = {
 			isa = PBXGroup;
 			children = (
+				3321EA302DA02B58003C45B7 /* DataSource */,
+				3321EA2B2DA02A46003C45B7 /* Repository */,
+				3321EA222DA027CF003C45B7 /* UseCases */,
 				3321EA1A2DA020DD003C45B7 /* HeroDetail */,
 				3321EA192DA020D1003C45B7 /* ListHeroes */,
 				3321E9762D9FB8E2003C45B7 /* Mocks */,
@@ -282,6 +299,9 @@
 			children = (
 				3321EA1B2DA02132003C45B7 /* HeroDetail */,
 				3321EA182DA0209F003C45B7 /* ListHeroes */,
+				3321EA232DA0284E003C45B7 /* MockMarvelRepository.swift */,
+				3321EA292DA02A2F003C45B7 /* MockMarvelDataSource.swift */,
+				3321EA2E2DA02B42003C45B7 /* MockAPIClient.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -328,6 +348,31 @@
 				3321EA1E2DA02177003C45B7 /* MockGetComicsUseCase.swift */,
 			);
 			path = HeroDetail;
+			sourceTree = "<group>";
+		};
+		3321EA222DA027CF003C45B7 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				3321EA252DA0286C003C45B7 /* GetHeroesUseCaseTests.swift */,
+				3321EA272DA0298A003C45B7 /* GetComicsUseCaseTests.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		3321EA2B2DA02A46003C45B7 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				3321EA2C2DA02A51003C45B7 /* MarvelRepositoryTests.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		3321EA302DA02B58003C45B7 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				3321EA312DA02B62003C45B7 /* MarvelDataSourceTests.swift */,
+			);
+			path = DataSource;
 			sourceTree = "<group>";
 		};
 		E6E551DC10F86994C93B46B1 /* Pods */ = {
@@ -611,9 +656,16 @@
 			files = (
 				3321E9782D9FB950003C45B7 /* ListHeroesPresenterTests.swift in Sources */,
 				3321E97A2D9FB981003C45B7 /* MockGetHeroesUseCase.swift in Sources */,
+				3321EA262DA0286C003C45B7 /* GetHeroesUseCaseTests.swift in Sources */,
+				3321EA322DA02B62003C45B7 /* MarvelDataSourceTests.swift in Sources */,
+				3321EA2F2DA02B42003C45B7 /* MockAPIClient.swift in Sources */,
 				3321EA1D2DA02142003C45B7 /* MockHeroDetailUI.swift in Sources */,
 				3321EA1F2DA02178003C45B7 /* MockGetComicsUseCase.swift in Sources */,
+				3321EA2A2DA02A2F003C45B7 /* MockMarvelDataSource.swift in Sources */,
+				3321EA242DA0284E003C45B7 /* MockMarvelRepository.swift in Sources */,
+				3321EA282DA0298A003C45B7 /* GetComicsUseCaseTests.swift in Sources */,
 				3321E9812D9FBC4A003C45B7 /* Extension+Thumbnail.swift in Sources */,
+				3321EA2D2DA02A51003C45B7 /* MarvelRepositoryTests.swift in Sources */,
 				3321EA212DA021B3003C45B7 /* HeroDetailPresenterTests.swift in Sources */,
 				3321E9832D9FBC84003C45B7 /* Extension+CharacterDataModel.swift in Sources */,
 				3321E97C2D9FB99D003C45B7 /* MockListHeroesUI.swift in Sources */,
