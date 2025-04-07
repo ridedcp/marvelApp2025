@@ -38,6 +38,6 @@ final class HeroDetailPresenter: HeroDetailPresenterProtocol {
     }
     
     func screenTitle() -> String {
-        return "Hero Detail"
+        return hero.name
     }
 }

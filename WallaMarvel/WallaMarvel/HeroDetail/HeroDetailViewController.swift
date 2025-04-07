@@ -6,13 +6,13 @@
 //
 
 import UIKit
+import SwiftUI
 import Kingfisher
 
 final class HeroDetailViewController: UIViewController {
     private var presenter: HeroDetailPresenterProtocol
     
     private let imageView = UIImageView()
-    private let nameLabel = UILabel()
     private var comics: [Comic] = []
     
     private let comicsTitleLabel: UILabel = {
@@ -35,6 +35,7 @@ final class HeroDetailViewController: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.register(ComicCollectionViewCell.self, forCellWithReuseIdentifier: "ComicCell")
         return collectionView
     }()
@@ -59,18 +60,13 @@ final class HeroDetailViewController: UIViewController {
     
     private func setupLayout() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
         comicsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         comicsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-
-        nameLabel.textAlignment = .center
-        nameLabel.font = .boldSystemFont(ofSize: 22)
 
         comicsTitleLabel.text = "Comics"
         comicsTitleLabel.font = .boldSystemFont(ofSize: 20)
 
         view.addSubview(imageView)
-        view.addSubview(nameLabel)
         view.addSubview(comicsTitleLabel)
         view.addSubview(comicsCollectionView)
 
@@ -80,11 +76,7 @@ final class HeroDetailViewController: UIViewController {
             imageView.widthAnchor.constraint(equalToConstant: 150),
             imageView.heightAnchor.constraint(equalToConstant: 150),
 
-            nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 12),
-            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-
-            comicsTitleLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 24),
+            comicsTitleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 24),
             comicsTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             comicsTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
 
@@ -99,7 +91,6 @@ final class HeroDetailViewController: UIViewController {
 
 extension HeroDetailViewController: HeroDetailUI {
     func showHero(name: String, imageURL: URL?) {
-        nameLabel.text = name
         imageView.kf.setImage(with: imageURL)
     }
     
@@ -122,5 +113,14 @@ extension HeroDetailViewController: UICollectionViewDataSource {
         }
         cell.configure(with: comics[indexPath.item])
         return cell
+    }
+}
+
+extension HeroDetailViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedComic = comics[indexPath.item]
+        let swiftUIView = ComicDetailView(comic: selectedComic)
+        let hostingController = UIHostingController(rootView: swiftUIView)
+        navigationController?.pushViewController(hostingController, animated: true)
     }
 }
