@@ -47,8 +47,8 @@ final class MarvelRepositoryTests: XCTestCase {
     func test_getComics_callsDataSourceWithCorrectHeroId_andReturnsComics() {
         // Given
         let expectedComics = [
-            Comic(id: 1, title: "House of M"),
-            Comic(id: 2, title: "Planet Hulk")
+            Comic(id: 1, title: "House of M", description: "some", pageCount: 12, thumbnail: nil, dates: []),
+            Comic(id: 2, title: "Planet Hulk", description: "some", pageCount: 12, thumbnail: nil, dates: [])
         ]
         mockDataSource.comicsResult = expectedComics
 

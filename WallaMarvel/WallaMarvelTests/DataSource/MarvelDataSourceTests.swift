@@ -46,8 +46,8 @@ final class MarvelDataSourceTests: XCTestCase {
     func test_getComics_callsAPIClientWithCorrectHeroId_andReturnsComics() {
         // Given
         let expectedComics = [
-            Comic(id: 1, title: "Thor: Ragnarok"),
-            Comic(id: 2, title: "Avengers Assemble")
+            Comic(id: 1, title: "Thor: Ragnarok", description: "some", pageCount: 12, thumbnail: nil, dates: []),
+            Comic(id: 2, title: "Avengers Assemble", description: "some", pageCount: 10, thumbnail: nil, dates: [])
         ]
         mockClient.comicsToReturn = expectedComics
 

@@ -24,6 +24,7 @@ struct ComicDetailView: View {
                     .font(.title)
                     .bold()
                     .padding(.horizontal)
+                    .accessibilityIdentifier("comicDetailTitle")
 
                 if let description = comic.description, !description.isEmpty {
                     Text(description)

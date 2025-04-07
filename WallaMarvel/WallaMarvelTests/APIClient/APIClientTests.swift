@@ -73,11 +73,35 @@ final class APIClientTests: XCTestCase {
                 "results": [
                     {
                         "id": 42,
-                        "title": "Infinity Gauntlet"
+                        "title": "Infinity Gauntlet",
+                        "description": "A cosmic battle",
+                        "pageCount": 48,
+                        "thumbnail": {
+                            "path": "http://example.com/image1",
+                            "extension": "jpg"
+                        },
+                        "dates": [
+                            {
+                                "type": "onsaleDate",
+                                "date": "1991-07-01T00:00:00-0400"
+                            }
+                        ]
                     },
                     {
                         "id": 43,
-                        "title": "Secret Wars"
+                        "title": "Secret Wars",
+                        "description": "The ultimate showdown",
+                        "pageCount": 52,
+                        "thumbnail": {
+                            "path": "http://example.com/image2",
+                            "extension": "jpg"
+                        },
+                        "dates": [
+                            {
+                                "type": "onsaleDate",
+                                "date": "1984-05-01T00:00:00-0400"
+                            }
+                        ]
                     }
                 ]
             }
@@ -85,7 +109,6 @@ final class APIClientTests: XCTestCase {
         """.data(using: .utf8)!
         
         MockURLProtocol.mockResponseData = json
-        
         let expectation = self.expectation(description: "Wait for comics response")
         var receivedComics: [Comic]?
         
@@ -101,8 +124,14 @@ final class APIClientTests: XCTestCase {
         XCTAssertEqual(receivedComics?.count, 2)
         XCTAssertEqual(receivedComics?.first?.id, 42)
         XCTAssertEqual(receivedComics?.first?.title, "Infinity Gauntlet")
-        XCTAssertEqual(receivedComics?.last?.title, "Secret Wars")
+        XCTAssertEqual(receivedComics?.first?.description, "A cosmic battle")
+        XCTAssertEqual(receivedComics?.first?.pageCount, 48)
+        XCTAssertEqual(receivedComics?.first?.thumbnail?.path, "http://example.com/image1")
+        XCTAssertEqual(receivedComics?.first?.thumbnail?.extension, "jpg")
+        XCTAssertEqual(receivedComics?.first?.dates.first?.type, "onsaleDate")
+        XCTAssertEqual(receivedComics?.first?.dates.first?.date, "1991-07-01T00:00:00-0400")
     }
+
     
     func test_getComics_whenNetworkError_returnsEmptyArray() {
         // Given

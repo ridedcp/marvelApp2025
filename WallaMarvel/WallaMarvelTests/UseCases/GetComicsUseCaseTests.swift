@@ -28,8 +28,8 @@ final class GetComicsUseCaseTests: XCTestCase {
     func test_execute_callsRepositoryWithCorrectHeroId_andReturnsComics() {
         // Given
         let expectedComics = [
-            Comic(id: 1, title: "Infinity War"),
-            Comic(id: 2, title: "Civil War")
+            Comic(id: 1, title: "Infinity War", description: "some", pageCount: 12, thumbnail: nil, dates: []),
+            Comic(id: 2, title: "Civil War", description: "some", pageCount: 12, thumbnail: nil, dates: [])
         ]
         mockRepo.comicsToReturn = expectedComics
 

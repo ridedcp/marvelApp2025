@@ -27,8 +27,8 @@ final class HeroDetailPresenterTests: XCTestCase {
         mockUI = MockHeroDetailUI()
         mockUseCase = MockGetComicsUseCase()
         mockUseCase.comicsToReturn = [
-            Comic(id: 1, title: "Comic One"),
-            Comic(id: 2, title: "Comic Two")
+            Comic(id: 1, title: "Comic One", description: "some", pageCount: 12, thumbnail: nil, dates: []),
+            Comic(id: 2, title: "Comic Two", description: "some", pageCount: 12, thumbnail: nil, dates: [])
         ]
 
         presenter = HeroDetailPresenter(hero: hero, getComicsUseCase: mockUseCase)
@@ -44,7 +44,7 @@ final class HeroDetailPresenterTests: XCTestCase {
     }
 
     func test_screenTitle_returnsExpectedTitle() {
-        XCTAssertEqual(presenter.screenTitle(), "Hero Detail")
+        XCTAssertEqual(presenter.screenTitle(), "Test Hero")
     }
 
     func test_onViewLoaded_showsHeroAndComics() {

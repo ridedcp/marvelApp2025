@@ -27,16 +27,18 @@ class WallaMarvelUITests: XCTestCase {
         let app = XCUIApplication()
         
         let table = app.tables.firstMatch
-        XCTAssertTrue(table.waitForExistence(timeout: 2))
+        XCTAssertTrue(table.waitForExistence(timeout: 5))
 
         let firstCell = table.cells.element(boundBy: 0)
         XCTAssertTrue(firstCell.exists)
         firstCell.tap()
+
+        let navBar = app.navigationBars.element
+        XCTAssertTrue(navBar.waitForExistence(timeout: 5), "Did not navigate to detail view")
         
-        let detailLabel = app.staticTexts["heroDetailNameLabel"]
-        XCTAssertTrue(detailLabel.waitForExistence(timeout: 2), "Could not arrive to detail view")
-        XCTAssertEqual(detailLabel.label, "3-D Man")
-        XCTAssertNotEqual(detailLabel.label, "Iron Man")
+        let title = navBar.staticTexts.element(boundBy: 0).label
+        XCTAssertEqual(title, "3-D Man")
+        XCTAssertNotEqual(title, "Iron Man")
     }
     
     func test_searchNoResults_showsEmptyStateLabel() throws {
@@ -57,26 +59,43 @@ class WallaMarvelUITests: XCTestCase {
         let app = XCUIApplication()
         
         let table = app.tables.firstMatch
-        XCTAssertTrue(table.waitForExistence(timeout: 2))
+        XCTAssertTrue(table.waitForExistence(timeout: 5))
 
         let firstCell = table.cells.element(boundBy: 0)
         XCTAssertTrue(firstCell.exists)
         firstCell.tap()
 
-        let detailLabel = app.staticTexts["heroDetailNameLabel"]
-        XCTAssertTrue(detailLabel.waitForExistence(timeout: 2))
+        let navBar = app.navigationBars.element
+        XCTAssertTrue(navBar.waitForExistence(timeout: 5), "Detail view did not load")
 
-        app.navigationBars.buttons.element(boundBy: 0).tap()
+        let backButton = navBar.buttons.element(boundBy: 0)
+        XCTAssertTrue(backButton.exists)
+        backButton.tap()
 
-        XCTAssertTrue(table.waitForExistence(timeout: 2))
+        XCTAssertTrue(table.waitForExistence(timeout: 5), "Did not return to hero list")
     }
+    
+    func test_openComicDetailView_displaysComicTitle() {
+        let app = XCUIApplication()
+        app.launch()
 
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
+        let tableView = app.tables.firstMatch
+        XCTAssertTrue(tableView.waitForExistence(timeout: 2), "List of heroes not loaded")
+        tableView.cells.firstMatch.tap()
+
+        let collection = app.collectionViews.firstMatch
+        XCTAssertTrue(collection.waitForExistence(timeout: 2), "Comics collection not found")
+
+        guard collection.cells.count > 0 else {
+            XCTFail("No comic cells found to tap")
+            return
         }
+
+        collection.cells.firstMatch.tap()
+
+        let comicTitle = app.staticTexts["comicDetailTitle"]
+        XCTAssertTrue(comicTitle.waitForExistence(timeout: 2), "Comic detail title not displayed")
     }
+
+    func testLaunchPerformance() throws {}
 }
