@@ -12,9 +12,9 @@ import Kingfisher
 final class HeroDetailViewController: UIViewController {
     private var presenter: HeroDetailPresenterProtocol
     
+    private var comicsAdapter: HeroDetailAdapter?
+
     private let imageView = UIImageView()
-    private var comics: [Comic] = []
-    
     private let comicsTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Comics"
@@ -34,8 +34,6 @@ final class HeroDetailViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.dataSource = self
-        collectionView.delegate = self
         collectionView.register(ComicCollectionViewCell.self, forCellWithReuseIdentifier: "ComicCell")
         return collectionView
     }()
@@ -60,9 +58,11 @@ final class HeroDetailViewController: UIViewController {
     
     private func setupLayout() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        comicsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        comicsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
 
+        comicsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         comicsTitleLabel.text = "Comics"
         comicsTitleLabel.font = .boldSystemFont(ofSize: 20)
 
@@ -86,7 +86,6 @@ final class HeroDetailViewController: UIViewController {
             comicsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
 }
 
 extension HeroDetailViewController: HeroDetailUI {
@@ -96,31 +95,14 @@ extension HeroDetailViewController: HeroDetailUI {
     
     func showComics(_ comics: [Comic]) {
         DispatchQueue.main.async {
-            self.comics = comics
+            self.comicsAdapter = HeroDetailAdapter(comics: comics) { [weak self] comic in
+                let swiftUIView = ComicDetailView(comic: comic)
+                let hostingVC = UIHostingController(rootView: swiftUIView)
+                self?.navigationController?.pushViewController(hostingVC, animated: true)
+            }
+            self.comicsCollectionView.dataSource = self.comicsAdapter
+            self.comicsCollectionView.delegate = self.comicsAdapter
             self.comicsCollectionView.reloadData()
         }
-    }
-}
-
-extension HeroDetailViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        comics.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ComicCell", for: indexPath) as? ComicCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        cell.configure(with: comics[indexPath.item])
-        return cell
-    }
-}
-
-extension HeroDetailViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedComic = comics[indexPath.item]
-        let swiftUIView = ComicDetailView(comic: selectedComic)
-        let hostingController = UIHostingController(rootView: swiftUIView)
-        navigationController?.pushViewController(hostingController, animated: true)
     }
 }
