@@ -1,7 +1,7 @@
 import UIKit
 
 final class ListHeroesViewController: UIViewController {
-    var mainView: ListHeroesView { return view as! ListHeroesView  }
+    var mainView: ListHeroesView { return view as! ListHeroesView }
     
     var presenter: ListHeroesPresenterProtocol?
     var listHeroesProvider: ListHeroesAdapter?
@@ -26,6 +26,7 @@ final class ListHeroesViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search heroes"
         navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
     }
 }
