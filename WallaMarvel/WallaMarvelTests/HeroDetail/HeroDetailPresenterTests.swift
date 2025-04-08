@@ -10,14 +10,10 @@ import XCTest
 
 final class HeroDetailPresenterTests: XCTestCase {
 
-    // MARK: - Mocks y dependencias
-
     private var presenter: HeroDetailPresenter!
     private var mockUI: MockHeroDetailUI!
     private var mockUseCase: MockGetComicsUseCase!
     private var hero: CharacterDataModel!
-
-    // MARK: - Setup / Teardown
 
     override func setUp() {
         super.setUp()

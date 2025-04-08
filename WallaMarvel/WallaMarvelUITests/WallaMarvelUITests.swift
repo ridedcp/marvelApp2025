@@ -7,9 +7,7 @@ class WallaMarvelUITests: XCTestCase {
         XCUIApplication().launch()
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+    override func tearDownWithError() throws {}
 
     func test_heroList_showsTableAndFirstCellCanBeTapped() throws {
         let app = XCUIApplication()
