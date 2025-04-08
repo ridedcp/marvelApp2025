@@ -6,6 +6,7 @@ final class ListHeroesViewController: UIViewController {
     var presenter: ListHeroesPresenterProtocol?
     var listHeroesProvider: ListHeroesAdapter?
     private let searchController = UISearchController(searchResultsController: nil)
+    private var searchDebounceWorkItem: DispatchWorkItem?
 
     override func loadView() {
         view = ListHeroesView()
@@ -78,6 +79,13 @@ extension ListHeroesViewController: UITableViewDelegate {
 extension ListHeroesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let query = searchController.searchBar.text ?? ""
-        presenter?.filterHeroes(with: query)
+        searchDebounceWorkItem?.cancel()
+        
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.presenter?.filterHeroes(with: query)
+        }
+
+        searchDebounceWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
     }
 }
